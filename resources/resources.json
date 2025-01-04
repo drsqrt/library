@@ -1,0 +1,13 @@
+{
+    "files" : [
+        {"id" : 0, "name" : "How to Pick a Career (That Actually Fits You)", "url" : "https://waitbutwhy.com/2018/04/picking-career.html", "folderId" : 1},
+        {"id" : 1, "name" : "For a More Creative Brain Follow These 5 Steps", "url" : "https://jamesclear.com/five-step-creative-process", "folderId" : 1},
+        {"id" : 2, "name" : "The Go Programming Language", "url" : "https://www.amazon.in/Go-Programming-Language-Alan-Donovan/dp/9332569711", "folderId" : 2}
+    ],
+
+    "folders" : [
+        {"id" : 0, "name" : "Root", "parentId" : null},
+        {"id" : 1, "name" : "Articles", "parentId" : 0},
+        {"id" : 2, "name" : "Books", "parentId" : 0}
+    ]
+}
