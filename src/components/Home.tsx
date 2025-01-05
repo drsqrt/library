@@ -1,24 +1,25 @@
 import { useEffect, useState } from "react";
 import "./styles/Home.css";
+import Panel from "./Panel";
 
 const url = "https://raw.githubusercontent.com/drsqrt/files/refs/heads/main/resources/resources.json";
 
-type FileType = {
+export type FileType = {
   id: number;
   name: string;
   url: string;
   folderId: number;
 };
 
-type FolderType = {
+export type FolderType = {
   id: number;
   name: string;
   parentId: number;
 };
 
 function Home() {
-  const [files, setFiles] = useState<FileType[] | null>(null);
-  const [folders, setFolders] = useState<FolderType[] | null>(null);
+  const [files, setFiles] = useState<FileType[]>([]);
+  const [folders, setFolders] = useState<FolderType[]>([]);
   const fetchData = async () => {
     try {
       const response = await fetch(url);
@@ -39,13 +40,7 @@ function Home() {
 
   return (
     <div className="home">
-      <div className="left-panel">
-        <menu>
-          <li>Articles</li>
-          <li>Books</li>
-          <li>Papers</li>
-        </menu>
-      </div>
+      <Panel files={[]} folders={folders.filter((f) => f.parentId === 0)}></Panel>
     </div>
   );
 }

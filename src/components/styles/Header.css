@@ -1,7 +1,7 @@
 .header {
-    height: 8%;
+    height: 5%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: lightblue;
+    background-color: #D3D3D3;
 }
