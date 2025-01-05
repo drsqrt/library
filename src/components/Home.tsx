@@ -34,6 +34,7 @@ function Home() {
     }
   };
 
+  if (false) console.log(files);
   useEffect(() => {
     fetchData();
   }, []);
