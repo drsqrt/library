@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./styles/Home.css";
 import Panel from "./Panel";
 
-const url = "https://raw.githubusercontent.com/drsqrt/files/refs/heads/main/resources/resources.json";
+const url = "https://raw.githubusercontent.com/drsqrt/files/refs/heads/main/src/public/resources.json";
 
 export type FileType = {
   id: number;
