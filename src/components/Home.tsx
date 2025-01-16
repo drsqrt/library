@@ -20,6 +20,8 @@ export type FolderType = {
 function Home() {
   const [files, setFiles] = useState<FileType[]>([]);
   const [folders, setFolders] = useState<FolderType[]>([]);
+  const [openPanels, setOpenPanels] = useState<number[]>([0]);
+
   const fetchData = async () => {
     try {
       const response = await fetch(url);
@@ -34,14 +36,27 @@ function Home() {
     }
   };
 
-  if (false) console.log(files);
   useEffect(() => {
     fetchData();
   }, []);
 
+  const handleFolderClick = (folderId: number) => {
+    setOpenPanels((prevPanels) => {
+      const existingIndex = prevPanels.indexOf(folderId);
+      if (existingIndex !== -1) {
+        return prevPanels.slice(0, existingIndex + 1); // Close panels to the right of the clicked one.
+      }
+      return [...prevPanels, folderId];
+    });
+  };
+
   return (
     <div className="home">
-      <Panel files={[]} folders={folders.filter((f) => f.parentId === 0)}></Panel>
+      {openPanels.map((folderId, index) => {
+        const currentFolders = folders.filter((f) => f.parentId === folderId);
+        const currentFiles = files.filter((f) => f.folderId === folderId);
+        return <Panel key={index} folders={currentFolders} files={currentFiles} onFolderClick={handleFolderClick} />;
+      })}
     </div>
   );
 }

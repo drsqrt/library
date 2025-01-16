@@ -1,25 +1,30 @@
-import { FileType, FolderType } from "./Home";
 import "./styles/Panel.css";
 
-function Panel({ files, folders }: { files: FileType[]; folders: FolderType[] }) {
+export type PanelProps = {
+  folders: { id: number; name: string }[];
+  files: { id: number; name: string; url: string }[];
+  onFolderClick: (folderId: number) => void;
+};
+
+function Panel({ folders, files, onFolderClick }: PanelProps) {
   return (
     <div className="side-bar">
-      <ul className="folder-list">
-        {folders.map((f) => (
-          <div key={f.id} className="folder-item">
+      <div className="folder-list">
+        {folders.map((folder) => (
+          <div key={folder.id} className="folder-item" onClick={() => onFolderClick(folder.id)}>
             <i className="fa-regular fa-folder"></i>
-            <p>{f.name}</p>
+            {folder.name}
           </div>
         ))}
-      </ul>
-      <ul className="file-list">
-        {files.map((f) => (
-          <div key={f.id} className="file-item">
+      </div>
+      <div className="file-list">
+        {files.map((file) => (
+          <div key={file.id} className="file-item">
             <i className="fa-regular fa-file"></i>
-            <p>{f.name}</p>
+            {file.name}
           </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

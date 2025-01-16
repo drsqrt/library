@@ -1,7 +1,6 @@
 .home {
     height: 95%;
     display: flex;
-    /* justify-content: center; */
-    /* align-items: center;  */
+    overflow-x: auto;
     background-color: #D3D3D3;
-}
+}  
