@@ -23,6 +23,24 @@
         "name":"Arpit Bhayani",
         "url":"https://arpitbhayani.me/",
         "folderId":3
+      },
+      {
+        "id":4,
+        "name":"The C Programming Language",
+        "url":"https://en.m.wikipedia.org/wiki/The_C_Programming_Language",
+        "folderId":6
+      },
+      {
+        "id":5,
+        "name":"Head First Java",
+        "url":"https://www.amazon.in/b?ie=UTF8&node=14447049031",
+        "folderId":5
+      },
+      {
+        "id":6,
+        "name":"Go Books Github",
+        "url":"https://github.com/dariubs/GoBooks",
+        "folderId":4
       }
     ],
 
@@ -50,6 +68,16 @@
       {
         "id":4,
         "name":"Go",
+        "parentId":2
+      },
+      {
+        "id":5,
+        "name":"Java",
+        "parentId":2
+      },
+      {
+        "id":6,
+        "name":"C",
         "parentId":2
       }
     ]

@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import "./styles/Home.css";
 import Panel from "./Panel";
 
-const url = "https://raw.githubusercontent.com/drsqrt/files/refs/heads/main/public/resources.json";
+const url: string = "https://raw.githubusercontent.com/drsqrt/files/refs/heads/main/public/resources.json";
+const BASE_PARENT_ID: number = 0;
 
 export type FileType = {
   id: number;
@@ -22,6 +23,15 @@ function Home() {
   const [folders, setFolders] = useState<FolderType[]>([]);
   const [openPanels, setOpenPanels] = useState<number[]>([0]);
 
+  const parentMap = useMemo(
+    () =>
+      folders.reduce((map, folder) => {
+        map[folder.id] = folder.parentId;
+        return map;
+      }, {} as Record<number, number>),
+    [folders]
+  );
+
   const fetchData = async () => {
     try {
       const response = await fetch(url);
@@ -29,10 +39,10 @@ function Home() {
         throw new Error(`Response status: ${response.status}`);
       }
       const json = await response.json();
-      setFiles(json.files);
-      setFolders(json.folders);
+      setFiles(json.files || []);
+      setFolders(json.folders || []);
     } catch (err) {
-      console.log(err);
+      console.error("Error fetching data: ", err);
     }
   };
 
@@ -41,21 +51,24 @@ function Home() {
   }, []);
 
   const handleFolderClick = (folderId: number) => {
-    setOpenPanels((prevPanels) => {
-      const existingIndex = prevPanels.indexOf(folderId);
-      if (existingIndex !== -1) {
-        return prevPanels.slice(0, existingIndex + 1); // Close panels to the right of the clicked one.
+    setOpenPanels(() => {
+      let updatedOpenPanels: number[] = [];
+      let currentFolderId: number = folderId;
+      while (currentFolderId !== BASE_PARENT_ID) {
+        updatedOpenPanels.push(currentFolderId);
+        currentFolderId = parentMap[currentFolderId] || BASE_PARENT_ID;
       }
-      return [...prevPanels, folderId];
+      updatedOpenPanels.push(BASE_PARENT_ID);
+      return updatedOpenPanels.reverse();
     });
   };
 
   return (
     <div className="home">
-      {openPanels.map((folderId, index) => {
+      {openPanels.map((folderId, _) => {
         const currentFolders = folders.filter((f) => f.parentId === folderId);
         const currentFiles = files.filter((f) => f.folderId === folderId);
-        return <Panel key={index} folders={currentFolders} files={currentFiles} onFolderClick={handleFolderClick} />;
+        return <Panel key={folderId} folders={currentFolders} files={currentFiles} onFolderClick={handleFolderClick} />;
       })}
     </div>
   );

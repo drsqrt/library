@@ -21,7 +21,9 @@ function Panel({ folders, files, onFolderClick }: PanelProps) {
         {files.map((file) => (
           <div key={file.id} className="file-item">
             <i className="fa-regular fa-file"></i>
-            {file.name}
+            <a href={file.url} target="_blank" rel="noopener noreferrer">
+              {file.name}
+            </a>
           </div>
         ))}
       </div>
