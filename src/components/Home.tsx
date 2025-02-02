@@ -52,15 +52,27 @@ function Home() {
   }, []);
 
   const handleFolderClick = (folderId: number) => {
-    setOpenPanels(() => {
-      let updatedOpenPanels: number[] = [];
-      let currentFolderId: number = folderId;
-      while (currentFolderId !== BASE_PARENT_ID) {
-        updatedOpenPanels.push(currentFolderId);
-        currentFolderId = parentMap[currentFolderId] || BASE_PARENT_ID;
+    setOpenPanels((prevOpenPanels) => {
+      if (prevOpenPanels.includes(folderId)) {
+        // close panel action
+        const findDescendants = (id: number): number[] => {
+          return folders
+            .filter((folder) => folder.parentId === id)
+            .flatMap((folder) => [folder.id, ...findDescendants(folder.id)]);
+        };
+        const allDescendants = findDescendants(folderId);
+        return prevOpenPanels.filter((id) => id !== folderId && !allDescendants.includes(id));
+      } else {
+        // open panel action
+        let updatedOpenPanels: number[] = [];
+        let currentFolderId: number = folderId;
+        while (currentFolderId !== BASE_PARENT_ID) {
+          updatedOpenPanels.push(currentFolderId);
+          currentFolderId = parentMap[currentFolderId] || BASE_PARENT_ID;
+        }
+        updatedOpenPanels.push(BASE_PARENT_ID);
+        return updatedOpenPanels.reverse();
       }
-      updatedOpenPanels.push(BASE_PARENT_ID);
-      return updatedOpenPanels.reverse();
     });
     setHighlightedFolders(() => {
       let updatedHighlightedFolders: number[] = [];
